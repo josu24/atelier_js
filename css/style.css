@@ -34,6 +34,11 @@ html {
 }
 body {
   margin: 0;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
 }
 a:focus {
   outline: thin dotted;
@@ -282,4 +287,8 @@ main {
   .content__contact {
     bottom: calc(var(--fontsize-scroll-text) * 1.5 + 15vh);
   }
+}
+
+.activeFrame {
+  background: black;
 }
