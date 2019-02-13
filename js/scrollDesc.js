@@ -1,12 +1,10 @@
 $(function() {
-  // wait for document ready
-  // init
   var controller = new ScrollMagic.Controller();
   var width;
 
-  // get all slides
   var slides = document.querySelectorAll("div.frame");
-  var line = document.querySelector("span.descLine");
+  var line = document.querySelectorAll("span.descLine");
+  var email = document.querySelector("div.content__contact");
   var desc1 = slides[0];
   var desc2 = slides[1];
   var desc3 = slides[2];
@@ -21,68 +19,53 @@ $(function() {
   });
   scene3 = new ScrollMagic.Scene({
     triggerElement: desc3,
-    offset: 250,
-    duration: 3000
+    offset: 250
   });
-  lineScene = new ScrollMagic.Scene({
-    triggerElement: line,
+  lineScene1 = new ScrollMagic.Scene({
+    triggerElement: line[0],
     triggerHook: "onLeave",
     offset: -300,
     duration: "100%"
   });
+  lineScene2 = new ScrollMagic.Scene({
+    triggerElement: line[1],
+    triggerHook: "onLeave",
+    offset: -300,
+    duration: "100%"
+  });
+  emailScene = new ScrollMagic.Scene({
+    triggerElement: email,
+    triggerHook: "onLeave",
+    offset: -500,
+    duration: "100%"
+  });
+
   scene1.setPin(desc1);
   scene1.addTo(controller);
   scene2.setPin(desc2);
   scene2.addTo(controller);
   scene3.setPin(desc3);
   scene3.addTo(controller);
-  lineScene.setTween(line, 2, { y: "50%", ease: Linear.ease });
-  lineScene.addTo(controller);
-  lineScene.addIndicators();
+  lineScene1.setTween(line[0], 2, { y: "50%", ease: Linear.ease });
+  lineScene1.addTo(controller);
+  lineScene2.setTween(line[1], 2, { y: "50%", ease: Linear.ease });
+  lineScene2.addTo(controller);
+  emailScene.setTween(email, 2, { y: "150%", ease: Linear.ease });
+  emailScene.addTo(controller);
 
   function updateDuration(e) {
     width = $(window.innerWidth);
-    //console.log(width[0]);
     if (width[0] < 500) {
-      durationValue = window.innerWidth / 2.4;
-      protoDuration = window.innerWidth * 3.5;
-      //console.log("less");
-    } else {
       durationValue = window.innerWidth / 2.1;
-      protoDuration = window.innerWidth * 2.62;
-      //console.log("more");
+      protoDuration = window.innerWidth * 4;
+    } else {
+      durationValue = window.innerWidth / 1.8;
+      protoDuration = window.innerWidth * 3.29;
     }
-
-    /* for (var i = 0; i < scenes.length; i++) {
-      scenes[i].duration(durationValue);
-    } */
     scene1.duration(durationValue);
     scene2.duration(durationValue);
     scene3.duration(protoDuration);
   }
   updateDuration();
   $(window).on("resize", updateDuration);
-
-  function init() {
-    elems = document.querySelectorAll("div.frame");
-    windowHeight = window.innerHeight;
-    addEventHandlers();
-    checkPosition();
-  }
-
-  function addEventHandlers() {
-    window.addEventListener("scroll", checkPosition);
-    window.addEventListener("resize", init);
-  }
-  function checkPosition() {
-    for (var i = 0; i < elems.length; i++) {
-      var positionFromTop = elems[i].getBoundingClientRect().top;
-      if (positionFromTop - windowHeight <= 0) {
-        elems[i].className = elems[i].className.replace(
-          "hidden",
-          "fade-in-element"
-        );
-      }
-    }
-  }
 });
